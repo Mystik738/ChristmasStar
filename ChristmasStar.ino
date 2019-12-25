@@ -23,6 +23,8 @@ int num;
 //The current base position
 int pos;
 bool movePos;
+//Whether to invert half the pixel positions
+bool invertPos;
 //Hues
 int randHue1;
 int randHue2;
@@ -43,6 +45,7 @@ void setup() {
   num = 5;
   pos = 0;
   movePos = true;
+  invertPos = false;
   randHue1 = random(6);
   randHue2 = random(6);
   nextRandHue1 = random(6);
@@ -78,6 +81,7 @@ void brighten() {
       if(!movePos) {
         pos = 0;
       }
+      invertPos = (bool) random(2);
     }
   }
 
@@ -132,7 +136,10 @@ void brighten() {
 void colorAllPosition(uint32_t color, int pos) {
   for(int i = 0; i < 5; i++) {
     pixels.setPixelColor(8*i + pos, color);
-    pixels.setPixelColor(8*(i+1) - (pos + 1), color);
+    if(invertPos)
+      pixels.setPixelColor(8*i + pos + 4, color);
+    else
+      pixels.setPixelColor(8*(i+1) - (pos + 1), color);
   }
 }
 
