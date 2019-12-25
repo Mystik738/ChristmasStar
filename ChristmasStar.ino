@@ -22,6 +22,7 @@ int dir;
 int num;
 //The current base position
 int pos;
+bool movePos;
 //Hues
 int randHue1;
 int randHue2;
@@ -41,6 +42,7 @@ void setup() {
   dir = 1;
   num = 5;
   pos = 0;
+  movePos = true;
   randHue1 = random(6);
   randHue2 = random(6);
   nextRandHue1 = random(6);
@@ -72,6 +74,10 @@ void brighten() {
       nextRandHue1 = random(6);
       nextRandHue2 = random(6);
       num = 1 + random(4);
+      movePos = (bool) random(2);
+      if(!movePos) {
+        pos = 0;
+      }
     }
   }
 
@@ -103,9 +109,11 @@ void brighten() {
   colorAllPosition(color2, (3 + pos/SPEED) % 4);
 
   //Increment the position
-  pos++;
-  if(pos >= 4*SPEED) {
-    pos = 0;
+  if(movePos) {
+    pos++;
+    if(pos >= 4*SPEED) {
+      pos = 0;
+    }
   }
 
   ost = ost + 2*dir;
